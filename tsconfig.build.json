@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false
+  },
+  "include": ["src/index.ts", "src/discord-client.ts", "src/inbound.ts", "src/outbound.ts"],
+  "exclude": ["dist", "node_modules", "src/**/*.test.ts"]
+}

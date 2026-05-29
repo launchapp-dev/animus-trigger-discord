@@ -1,0 +1,37 @@
+schema = "animus.plugin.v1"
+name = "animus-trigger-discord"
+version = "0.1.0"
+plugin_kind = "trigger_backend"
+description = "Discord trigger backend — emits mention + DM events, sends replies via outbound RPC"
+
+[capabilities]
+streaming = true
+progress = false
+cancellation = false
+methods = [
+  "trigger/watch",
+  "trigger/ack",
+  "discord/send_channel_message",
+  "discord/send_dm",
+  "discord/send_embed",
+  "health/check",
+]
+
+[binary]
+default = "animus-trigger-discord"
+
+[[env]]
+key = "DISCORD_BOT_TOKEN"
+description = "Discord bot token (from https://discord.com/developers -> Bot tab). Requires Message Content + Server Members privileged intents."
+required = true
+sensitive = true
+
+[[env]]
+key = "DISCORD_FILTER_GUILDS"
+description = "Comma-separated guild (server) IDs to listen on (default: all guilds the bot is in)."
+required = false
+
+[[env]]
+key = "DISCORD_FILTER_CHANNELS"
+description = "Comma-separated channel IDs to listen on (default: all channels)."
+required = false
