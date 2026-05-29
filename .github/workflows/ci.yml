@@ -23,4 +23,4 @@ jobs:
       - name: test
         run: npm test
       - name: manifest
-        run: node dist/index.js --manifest
+        run: node dist/index.cjs --manifest

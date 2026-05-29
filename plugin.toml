@@ -1,6 +1,6 @@
 schema = "animus.plugin.v1"
 name = "animus-trigger-discord"
-version = "0.1.0"
+version = "0.1.1"
 plugin_kind = "trigger_backend"
 description = "Discord trigger backend — emits mention + DM events, sends replies via outbound RPC"
 
@@ -10,6 +10,7 @@ progress = false
 cancellation = false
 methods = [
   "trigger/watch",
+  "trigger/schema",
   "trigger/ack",
   "discord/send_channel_message",
   "discord/send_dm",

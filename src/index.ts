@@ -43,6 +43,8 @@ import type { Client, Message } from 'discord.js';
 import { createDiscordClient } from './discord-client.js';
 import {
   channelAllowed,
+  KIND_DISCORD_DM,
+  KIND_DISCORD_MENTION,
   mapDiscordMessage,
   type ChannelAllowlist,
 } from './inbound.js';
@@ -56,12 +58,13 @@ import {
 } from './outbound.js';
 
 const PLUGIN_NAME = 'animus-trigger-discord';
-const PLUGIN_VERSION = '0.1.0';
+const PLUGIN_VERSION = '0.1.1';
 const PLUGIN_DESCRIPTION =
   'Discord trigger backend — emits mention + DM events, sends replies via outbound RPC';
 
 const METHODS = [
   'trigger/watch',
+  'trigger/schema',
   'trigger/ack',
   'discord/send_channel_message',
   'discord/send_dm',
@@ -103,6 +106,13 @@ const MANIFEST: PluginManifest = buildManifest(IDENTITY, CAPABILITIES, {
     },
   ],
 });
+
+const TRIGGER_SCHEMA = {
+  kinds: [KIND_DISCORD_MENTION, KIND_DISCORD_DM],
+  supports_resume: false,
+  supports_dedup: false,
+  supports_ack: true,
+};
 
 interface RuntimeState {
   client: Client | null;
@@ -215,6 +225,8 @@ async function dispatch(
       return okResponse(id, {});
     case 'trigger/watch':
       return handleWatch(id, frame, wire);
+    case 'trigger/schema':
+      return okResponse(id, TRIGGER_SCHEMA);
     case 'trigger/ack':
       // No-op: Discord acks happen inside discord.js's internal Gateway loop.
       return okResponse(id, {});
@@ -310,7 +322,7 @@ async function teardown(): Promise<void> {
 const isMain = (() => {
   const entry = process.argv[1];
   if (!entry) return false;
-  return entry.endsWith('index.js') || entry.endsWith('animus-trigger-discord');
+  return entry.endsWith('index.cjs') || entry.endsWith('index.js') || entry.endsWith('animus-trigger-discord');
 })();
 
 if (isMain) {

@@ -101,8 +101,8 @@ npm run typecheck
 npm test
 ```
 
-The build produces `dist/index.js` (a single bundled ESM file). The plugin
-manifest is emitted via `node dist/index.js --manifest` — Animus's
+The build produces `dist/index.cjs` (a single bundled Node executable). The plugin
+manifest is emitted via `node dist/index.cjs --manifest` — Animus's
 `plugin info` reads this to introspect capabilities.
 
 ## Not yet covered (v0.2+ ideas)

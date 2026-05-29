@@ -9,7 +9,7 @@
 //     tarball)
 //
 // No-op when:
-//   - dist/index.js already exists AND we're not in a publish flow
+//   - dist/index.cjs already exists AND we're not in a publish flow
 //   - tsup is not installed (e.g. minimal CI step that only consumes dist/)
 
 import { existsSync } from 'node:fs';
@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
-const distIndex = join(root, 'dist', 'index.js');
+const distIndex = join(root, 'dist', 'index.cjs');
 const tsupBin = join(root, 'node_modules', '.bin', 'tsup');
 
 if (existsSync(distIndex)) {

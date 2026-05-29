@@ -23,20 +23,15 @@ if (!existsSync(sdkDir)) {
 if (existsSync(join(sdkDir, 'dist', 'index.js'))) {
   process.exit(0);
 }
-// If our own `dist/` is already shipped (published-tarball install path),
-// the SDK never has to compile — our bundle has the SDK code inlined by
-// tsup. Skip silently. Same for production-only installs where the consumer
-// didn't ask for devDependencies.
 const ourDist = join(root, 'dist', 'index.js');
-if (existsSync(ourDist)) {
-  process.exit(0);
-}
 const tscBinCheck = join(root, 'node_modules', '.bin', 'tsc');
 if (!existsSync(tscBinCheck)) {
-  // Production install without devDeps — nothing we can do, but our bundled
-  // dist (above) should have covered this case. If we got here, the host
-  // operator is doing something exotic; fall through to a warning rather
-  // than aborting the install.
+  // Production install without devDeps. A published plugin tarball should
+  // already include its own dist/ bundle, so only warn when neither build
+  // path exists.
+  if (existsSync(ourDist)) {
+    process.exit(0);
+  }
   console.warn(
     '[animus-trigger-discord] SDK lacks dist/ and tsc is unavailable; ' +
       'skipping SDK build (the plugin bundle in dist/ should still work).',

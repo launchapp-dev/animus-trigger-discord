@@ -1,6 +1,6 @@
 {
   "name": "@launchapp-dev/animus-trigger-discord",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Discord trigger plugin for Animus — emits TriggerEvents for mentions + DMs, exposes outbound RPC for channel/DM/embed sends.",
   "license": "Elastic-2.0",
   "type": "module",
@@ -8,7 +8,7 @@
     "node": ">=20"
   },
   "bin": {
-    "animus-trigger-discord": "./dist/index.js"
+    "animus-trigger-discord": "./dist/index.cjs"
   },
   "files": [
     "dist",
@@ -28,11 +28,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "start": "node dist/index.js",
-    "manifest": "node dist/index.js --manifest"
+    "start": "node dist/index.cjs",
+    "manifest": "node dist/index.cjs --manifest"
   },
   "dependencies": {
-    "@launchapp-dev/animus-plugin-sdk": "git+https://github.com/launchapp-dev/animus-plugin-sdk-ts.git#v0.1.0",
+    "@launchapp-dev/animus-plugin-sdk": "github:launchapp-dev/animus-plugin-sdk-ts#v0.1.1",
     "discord.js": "^14.16.3"
   },
   "devDependencies": {
